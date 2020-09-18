@@ -1,0 +1,15 @@
+{ "instructions":
+  [ { "instruction" : "ld_port_hit",
+      "ready bound" : 1 }, 
+    { "instruction" : "ld_port_no_hit",
+      "ready bound" : 1 },
+    { "instruction" : "spec_func_0_in_func_0",
+      "ready bound" : 1 },
+    { "instruction" : "spec_func_0_in_func_1",
+      "ready bound" : 1 },
+    { "instruction" : "spec_func_1_in_func_0",
+      "ready bound" : 1 },
+    { "instruction" : "spec_func_1_in_func_1",
+      "ready bound" : 1 } 
+  ]
+}

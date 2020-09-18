@@ -1,0 +1,32 @@
+{ "models": { "ILA": "m0", "VERILOG": "m1" },
+  "state mapping": {
+    "s_axi_awready": "s_axi_awready",
+    "s_axi_wready": "s_axi_wready",
+    "s_axi_bid": "s_axi_bid",
+    "s_axi_bresp": "s_axi_bresp",
+    "s_axi_bvalid": "s_axi_bvalid",
+    "tx_wactive": "m0.tx_wactive == m1.write_active",
+    "tx_bwait": "m0.tx_bwait == m1.b_wait",
+    "tx_awsize": "m0.tx_awsize == m1.axi_awsize",
+    "tx_awburst": "m0.tx_awburst == m1.axi_awburst",
+    "tx_awaddr": "m0.tx_awaddr == m1.axi_awaddr",
+    "tx_awlen": null 
+  },
+  "interface mapping": {
+    "s_axi_awid": "s_axi_awid",
+    "s_axi_awaddr": "s_axi_awaddr",
+    "s_axi_awlen": "s_axi_awlen",
+    "s_axi_awsize": "s_axi_awsize",
+    "s_axi_awburst": "s_axi_awburst",
+    "s_axi_awvalid": "s_axi_awvalid",
+    "s_axi_wlast": "s_axi_wlast",
+    "s_axi_wvalid": "s_axi_wvalid",
+    "s_axi_bready": "s_axi_bready",
+    "s_axi_aresetn": "s_axi_aresetn",
+    "s_axi_aclk": "**CLOCK**" 
+  },
+  "functions": { 
+    "unknown0": [[ "__IEND__", "m1.s_axi_wready" ]],
+    "unknown1": [[ "__IEND__", "m1.s_axi_wready" ]]
+  }
+}

@@ -1,0 +1,13 @@
+{ "instructions": [
+    { "instruction" : "WReset",
+      "ready bound": 1 },
+    { "instruction" : "AXIWriteAddrNotReady",
+      "ready bound": 1 },
+    { "instruction" : "AXIWriteAddrReady",
+      "ready bound": 1 },
+    { "instruction" : "AXIWriteDataReady",
+      "ready bound": 1 },
+    { "instruction" : "AXIWriteDataNotReady",
+      "ready bound": 1 } ],
+  "global invariants": [ "awlen_b == 8'b0" ]
+}

@@ -1,0 +1,27 @@
+{   "instructions": [
+    { "instruction" : "LOAD_FWDACK",
+      "ready signal": "#pipe2_commit#",
+      "start condition": ["$decode$", "((m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) == 1)"],
+      "max bound": 50 },
+    { "instruction" : "STORE_FWDACK",
+      "ready signal": "#pipe2_commit#",
+      "start condition": ["$decode$", "((m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) == 1)"],
+      "max bound": 50 },
+    { "instruction" : "INV_FWDACK",
+      "ready signal": "#pipe2_commit#",
+      "start condition": ["$decode$", "((m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) == 1)"],
+      "max bound": 50 },
+    { "instruction" : "LOAD_MEM_ACK",
+      "ready signal": "#pipe2_commit#",
+      "start condition": ["$decode$", "((m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) == 1)"],
+      "max bound": 50 },
+    { "instruction" : "STORE_MEM_ACK",
+      "ready signal": "#pipe2_commit#",
+      "start condition": ["$decode$", "((m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) == 1)"],
+      "max bound": 50 },
+    { "instruction" : "WB_REQ",
+      "ready signal": "#pipe2_commit#",
+      "start condition": ["$decode$", "((m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) == 1)"],
+      "max bound": 50 }
+  ]
+}

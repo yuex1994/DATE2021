@@ -1,0 +1,29 @@
+{ "models": { "ILA":"m0" , "VERILOG": "m1" },
+  "state mapping": { 
+    "m_axi_arid"    : "m_axi_arid"   ,
+    "m_axi_araddr"  : "m_axi_araddr" ,
+    "m_axi_arlen"   : "m_axi_arlen"  ,
+    "m_axi_arsize"  : "m_axi_arsize" ,
+    "m_axi_arburst" : "m_axi_arburst",
+    "m_axi_arlock"  : "m_axi_arlock" ,
+    "m_axi_arcache" : "m_axi_arcache",
+    "m_axi_arprot"  : "m_axi_arprot" ,
+    "m_axi_arqos"   : "m_axi_arqos"  ,
+    "m_axi_arvalid" : "m_axi_arvalid",
+    "m_axi_rready"  : "m_axi_rready" },
+  "interface mapping": {
+   "m_axi_arready" : "m_axi_arready", 
+   "m_axi_rdata" :     "m_axi_rdata",
+   "m_axi_rresp" :     "m_axi_rresp",
+   "m_axi_rlast" :     "m_axi_rlast",
+   "m_axi_rvalid" :    "m_axi_rvalid",
+   "m_axi_aresetn" :           "m_axi_aresetn", 
+   "m_axi_aclk"    :           "**CLOCK**" },
+  "functions":{
+    "unknown26": [[ "__IEND__", "m1.m_axi_arid"]],
+    "unknown27": [[ "__IEND__", "m1.m_axi_araddr"]],
+    "unknown28": [[ "__IEND__", "m1.m_axi_arlen"]],
+    "unknown29": [[ "__IEND__", "m1.m_axi_arsize"]],
+    "unknown30": [[ "__IEND__", "m1.m_axi_arburst"]],
+    "unknown31": [[ "__IEND__", "m1.m_axi_arvalid"]] }
+}

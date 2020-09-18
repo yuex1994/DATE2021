@@ -1,0 +1,32 @@
+{ "models" : { "ILA" : "m0", "VERILOG" : "m1"},
+  "state mapping" : {
+    "finptr" : "m1.finptr",
+    "comptr" : "m1.comptr",
+    "retptr" : "m1.retptr",
+    "outdata" : "m1.outdata",
+    "outhit" : "m1.outhit",
+    "specbit_0" : "m1.specbit[0]",
+    "completed_0" : "m1.completed[0]",
+    "spectag_0" : "m1.spectag[0]",
+    "valid_0" : "m1.valid[0]",
+    "data_0" : "m1.data[0]",
+    "addr_0" : "m1.addr[0]" },
+  "interface mapping" : {
+    "reset"  : "**RESET**",
+    "clk"  : "**CLOCK**",
+    "ldaddr" : "ldaddr",
+    "stfin" : "stfin",
+    "stspecbit" : "stspecbit",
+    "stcom" : "stcom",
+    "stdata" : "stdata",
+    "staddr" : "staddr",
+    "stspectag" : "stspectag",
+    "spectagfix" : "spectagfix",
+    "memoccupy_ld" : "memoccupy_ld",
+    "prmiss" : "prmiss",
+    "prsuccess" : "prsuccess",
+    "prtag" : "prtag" },
+  "mapping control" : [ 
+    "m1.stcom == 0",
+    "m1.memoccupy_ld == 0"]
+}

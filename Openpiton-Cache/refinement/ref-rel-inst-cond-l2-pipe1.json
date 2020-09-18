@@ -1,0 +1,11 @@
+{ "instructions": [
+    { "instruction" : "LOAD_REQ",
+      "ready signal": "#pipe1_commit#",
+      "start condition": ["$decode$", "((m1.pipe1.ctrl.valid_S1 && !m1.pipe1.ctrl.stall_S1) == 1)"],
+      "max bound": 50 },
+    { "instruction" : "STORE_REQ",
+      "ready signal": "#pipe1_commit#",
+      "start condition": ["$decode$", "((m1.pipe1.ctrl.valid_S1 && !m1.pipe1.ctrl.stall_S1) == 1)"],
+      "max bound": 50 }
+  ]
+}

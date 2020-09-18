@@ -1,0 +1,36 @@
+{ "models": { "ILA":"m0" , "VERILOG": "m1" },
+  "state mapping": { 
+    "msg2_type"   :    [["__START__", null],
+                        ["__IEND__", "#msg_send#"]],
+    "cache_tag_pipe1"   :    "m1.tag_wrap.l2_tag.l2_tag_array.cache[0][25:0]",
+    "cache_vd_pipe1"    :    [["__START__", "#cache_in#[12:11]"],
+                        ["__IEND__",  "m1.state_wrap.l2_state.l2_state_array.cache[0][12:11]"]],
+    "cache_state_pipe1" :    [["__START__", "#cache_in#[14:13]"],
+                        ["__IEND__",  "m1.state_wrap.l2_state.l2_state_array.cache[0][14:13]"]],
+    "cache_owner_pipe1" :    [["__START__", "#cache_in#[5:0]"],
+                        ["__IEND__",  "m1.state_wrap.l2_state.l2_state_array.cache[0][5:0]"]],
+    "cache_data_pipe1"  :    "m1.data_wrap.l2_data.l2_data_array.cache[0][63:0]",
+    "share_list" :    "m1.dir_wrap.l2_dir.l2_dir_array.cache[0]",
+    "cur_msg_state":   "m1.mshr_wrap.state_mem_f[0]",
+    "cur_msg_type":    "m1.mshr_wrap.data_mem_f[0][61:54]",
+    "cur_msg_source":  "{m1.mshr_wrap.data_mem_f[0][87:85], m1.mshr_wrap.data_mem_f[0][79:77]}",
+    "cur_msg_tag":     "m1.mshr_wrap.data_mem_f[0][39:14]"
+  },
+  "interface mapping": {
+     "clk"           :           "**CLOCK**" ,
+     "rst_n"         :           "**NRESET**"
+  },
+  "mapping control":[
+    "__ILA_I_msg1_type  == m1.pipe1.msg_type",
+    "__ILA_I_msg1_tag    == m1.pipe1.msg_addr[39:14]",
+    "__ILA_I_msg1_source == {m1.pipe1.msg_src_y[2:0], m1.pipe1.msg_src_x[2:0]}",
+    "~#monitor_S1# || ~(m1.pipe2.ctrl.state_wr_en_S3 || m1.pipe2.ctrl.mshr_wr_state_en_S3 || m1.pipe2.ctrl.tag_clk_en_S1)",
+    "~#monitor_S2# || ~(m1.pipe2.ctrl.state_wr_en_S3 || m1.pipe2.ctrl.mshr_wr_state_en_S3 || m1.pipe2.ctrl.tag_clk_en_S1)",
+    "~#monitor_S3# || ~(m1.pipe2.ctrl.state_wr_en_S3 || m1.pipe2.ctrl.mshr_wr_state_en_S3 || m1.pipe2.ctrl.tag_clk_en_S1)",
+    "~#monitor_S4# || ~(m1.pipe2.ctrl.state_wr_en_S3 || m1.pipe2.ctrl.mshr_wr_state_en_S3 || m1.pipe2.ctrl.tag_clk_en_S1)",
+    "(~#monitor_S2# || ~m1.pipe1.ctrl.req_recycle_S2) && (~#monitor_S3# || ~m1.pipe1.ctrl.req_recycle_S3) && (~#monitor_S4# || ~m1.pipe1.ctrl.req_recycle_S4)",
+    "~#pipe2_monitor_S2# || (m1.pipe2.ctrl.is_last_subline_S2 && m1.pipe2.ctrl.subline_valid_S2 && m1.pipe2.ctrl.msg_length_S2_f !=0)",
+    "~#pipe2_monitor_S2# || ~(m1.pipe1.ctrl.state_wr_en_S4)",
+    "~(#pipe2_monitor_S2# && m1.pipe2.msg_type_S2 == 23) || (m1.pipe2.ctrl.l2_way_state_owner_S2 == 1 && m1.pipe2.ctrl.inv_fwd_pending_S2_f == 0)"
+  ]
+}

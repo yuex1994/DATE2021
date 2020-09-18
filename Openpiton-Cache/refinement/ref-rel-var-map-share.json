@@ -1,0 +1,170 @@
+
+{ "verilog-inline-monitors":{
+    "stage_tracker" : {
+      "verilog" : [
+        "always @(*) begin monitor_S1 = __START__ && (m1.pipe1.ctrl.valid_S1 && !m1.pipe1.ctrl.stall_S1) ; end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        monitor_S2_f <= 0;",
+        "    else if (!m1.pipe1.ctrl.stall_S2)",
+        "        monitor_S2_f <= monitor_S1;",
+        "end",
+        "always @(*)",
+        "begin",
+        "  monitor_S2 = monitor_S2_f; ",
+        "  monitor_S2_next = monitor_S2 && !m1.pipe1.ctrl.stall_S2; ",
+        "end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        monitor_S3_f <= 0;",
+        "    else if (!m1.pipe1.ctrl.stall_S3)",
+        "        monitor_S3_f <= monitor_S2_next;",
+        "end",
+        "always @(*)",
+        "begin",
+        "    monitor_S3 = monitor_S3_f; ",
+        "    monitor_S3_next = monitor_S3 && !m1.pipe1.ctrl.stall_S3;",
+        "end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        monitor_S4_f <= 0;",
+        "    else if (!m1.pipe1.ctrl.stall_S4)",
+        "        monitor_S4_f <= monitor_S3_next;",
+        "end",
+        "always @(*)",
+        "begin", 
+        "    monitor_S4 = monitor_S4_f;",
+        "    monitor_S4_next = monitor_S4 && !m1.pipe1.ctrl.stall_S4;",
+        "end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        pipe1_commit <= 0;",
+        "    else",
+        "        pipe1_commit <= monitor_S4_next;",
+        "end"
+      ],
+      "defs" : [
+        ["monitor_S1"      , 1 , "reg"]  ,
+        ["monitor_S2_f"    , 1 , "reg"]  ,
+        ["monitor_S2"      , 1 , "reg"]  ,
+        ["monitor_S2_next" , 1 , "reg"]  ,
+        ["monitor_S3_f"    , 1 , "reg"]  ,
+        ["monitor_S3"      , 1 , "reg"]  ,
+        ["monitor_S3_next" , 1 , "reg"]  , 
+        ["monitor_S4_f"    , 1 , "reg"]  ,
+        ["monitor_S4"      , 1 , "reg"]  ,
+        ["monitor_S4_next" , 1 , "reg"]  , 
+        ["pipe1_commit"    , 1 , "reg"]   
+      ],
+      "refs" : [ "m1.pipe1.ctrl.stall_S2", "m1.pipe1.ctrl.stall_S3", "m1.pipe1.ctrl.stall_S4" ]
+    },
+    "stage_tracker_pipe2" : {
+      "verilog" : [
+        "always @(*) begin pipe2_monitor_S1 = __START__ && (m1.pipe2.ctrl.valid_S1 && !m1.pipe2.ctrl.stall_S1) ; end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        pipe2_monitor_S2 <= 0;",
+        "    else if (!m1.pipe2.ctrl.stall_S2)",
+        "        pipe2_monitor_S2 <= pipe2_monitor_S1;",
+        "end",
+        "always @(*)",
+        "begin",
+        "  pipe2_monitor_S2_next = pipe2_monitor_S2 && !m1.pipe2.ctrl.stall_S2; ",
+        "end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        pipe2_monitor_S3 <= 0;",
+        "    else if (!m1.pipe2.ctrl.stall_S3)",
+        "        pipe2_monitor_S3 <= pipe2_monitor_S2_next;",
+        "end",
+        "always @(*)",
+        "begin",
+        "    pipe2_monitor_S3_next = pipe2_monitor_S3 && !m1.pipe2.ctrl.stall_S3;",
+        "end",
+        "always @(posedge clk) begin",
+        "    if(rst)",
+        "        pipe2_commit <= 0;",
+        "    else",
+        "        pipe2_commit <= pipe2_monitor_S3_next;",
+        "end"
+      ],
+      "defs" : [
+        ["pipe2_monitor_S1"      , 1 , "reg"]  ,
+        ["pipe2_monitor_S2"      , 1 , "reg"]  ,
+        ["pipe2_monitor_S2_next" , 1 , "reg"]  ,
+        ["pipe2_monitor_S3"      , 1 , "reg"]  ,
+        ["pipe2_monitor_S3_next" , 1 , "reg"]  , 
+        ["pipe2_commit"          , 1 , "reg"]   
+      ],
+      "refs" : [ "m1.pipe2.ctrl.stall_S2", "m1.pipe2.ctrl.stall_S3" ]
+    },
+    "bypass_logic":{
+      "verilog" : [
+        "always @(*) begin",
+        "    data_in_bp      = m1.state_wrap.l2_state.data_in;",
+        "    data_mask_in_bp = m1.state_wrap.l2_state.data_mask_in;",
+        "    cache_0         = m1.state_wrap.l2_state.l2_state_array.cache[0];",
+        "    cache_bp = (data_in_bp & data_mask_in_bp) | (cache_0 & ~data_mask_in_bp);",
+        "    if(m1.state_wrap.l2_state.bypass_next)",
+        "        cache_in = cache_bp;",
+        "    else",
+        "        cache_in = cache_0;",
+        "end"
+      ],
+      "defs" : [
+        ["data_in_bp"      , 66 ,"reg"],
+        ["data_mask_in_bp" , 66 ,"reg"],
+        ["cache_0"         , 66 ,"reg"],
+        ["cache_bp"        , 66 ,"reg"],
+        ["cache_in"        , 66 ,"reg"]
+      ],
+      "refs": [ "m1.state_wrap.l2_state.data_in", "m1.state_wrap.l2_state.data_mask_in", "m1.state_wrap.l2_state.l2_state_array.cache[0]", "m1.state_wrap.l2_state.bypass_next" ]
+    }
+  },
+  "assumptions" : [
+    " ~m1.pipe1.msg_header_valid || (m1.pipe1.msg_type == 2 || m1.pipe1.msg_type == 31 || m1.pipe1.msg_type == 13)",
+    " ~m1.pipe2.msg_header_valid || ( ( m1.pipe2.msg_type >= 21 && m1.pipe2.msg_type <= 25) || m1.pipe2.msg_type == 12)",
+    "m1.pipe1.ctrl.special_addr_type_S1 == 0",
+    "m1.pipe1.msg_addr[13:4] == 0 && m1.pipe2.msg_addr[13:4] == 0",
+    "~(m1.state_wrap.l2_state.l2_state_array.cache[0][14:13] == `L2_MESI_E) || (m1.state_wrap.l2_state.l2_state_array.cache[0][9:6] == 1)",
+    "~(m1.pipe2.ctrl.msg_type_S1 == `MSG_TYPE_WB_REQ && m1.pipe2.ctrl.valid_S1) || m1.state_wrap.l2_state.l2_state_array.cache[0][14:13] == `L2_MESI_E",
+    "(~m1.pipe1.ctrl.msg_state_S4_f || ~m1.pipe1.ctrl.req_recycle_S4)",
+    "~m1.pipe1.ctrl.state_wr_en_real_S4 || (m1.pipe1.dpath.dir_sharer_counter_S4 > m1.pipe1.dpath.mshr_inv_counter_out_S4)",
+    "~(m1.pipe2.ctrl.mshr_wr_state_en_S3 || m1.pipe2.ctrl.state_wr_en_S3 || m1.pipe2.ctrl.dir_clk_en_S2) || (m1.mshr_wrap.state_mem_f[0] == 2'b01 || m1.pipe2.ctrl.msg_type_S3 == `MSG_TYPE_WB_REQ)",
+    "~(m1.pipe2.ctrl.valid_S1 && 21 <= m1.pipe2.ctrl.msg_type_S1 <= 24) || m1.mshr_wrap.state_mem_f[0] == 2'b01",
+    "m1.pipe2.msg_mshrid == 0",
+    "m1.pipe2.msg_subline_id == 0",
+    "m1.pipe1.ctrl.cache_type_S1 == 0"
+  ],
+  "value-holder" : {
+    "msg_send" :{
+      "cond": "#monitor_S4#",
+      "val" : "m1.pipe1.ctrl.msg_send_type_S4",
+      "width": "auto"
+    },
+    "msg_data" :{
+      "cond" : "#pipe2_monitor_S2#",
+      "val" : "m1.pipe2.dpath.msg_data_S2[63:0]",
+      "width" : "auto"
+    }
+  },
+  "functions": {
+    "__unknown__0" :[["__IEND__", "m1.state_wrap.l2_state.l2_state_array.cache[0][5:0]" ]],
+    "__unknown__1" :[["__IEND__", "m1.state_wrap.l2_state.l2_state_array.cache[0][5:0]" ]]
+  },
+  "global invariants": [
+    "m1.mshr_wrap.state_mem_f[1] == 0 && m1.mshr_wrap.state_mem_f[2] == 0 && m1.mshr_wrap.state_mem_f[3] == 0",
+    "m1.mshr_wrap.state_mem_f[4] == 0 && m1.mshr_wrap.state_mem_f[5] == 0 && m1.mshr_wrap.state_mem_f[6] == 0 && m1.mshr_wrap.state_mem_f[7] == 0",
+    "m1.mshr_wrap.data_mem_f[0][119] == 0 && m1.mshr_wrap.data_mem_f[0][41:40] == 0",
+    "m1.state_wrap.l2_state.l2_state_array.cache[0][14:13] != 3",
+    "m1.state_wrap.l2_state.l2_state_array.cache[0][12:11] != 1",
+    "m1.pipe1.ctrl.special_addr_type_S2 == 0",
+    "m1.pipe1.ctrl.addr_S2[13:4] == 0 && m1.pipe1.ctrl.addr_S3[13:4] == 0 && m1.pipe1.ctrl.addr_S4[13:4] == 0",
+    "m1.pipe2.ctrl.addr_S2[13:6] == 0 && m1.pipe2.ctrl.addr_S3[13:6] == 0",
+    "~m1.pipe1.ctrl.first_valid_S4 || m1.pipe1.ctrl.msg_state_S4_f == 0",
+    "~m1.pipe2.ctrl.first_valid_S2 || m1.pipe2.ctrl.l2_load_data_subline_S2_f == 0",
+    "~m1.pipe1.ctrl.first_valid_S4 || m1.pipe1.ctrl.dir_sharer_counter_S4 == 1",
+    "m1.state_wrap.l2_state.l2_state_array.cache[0][10] == 0",
+    "~(m1.pipe2.valid_S1 || m1.pipe2.valid_S3) || (~m1.pipe1.ctrl.data_clk_en_S2 || m1.pipe1.ctrl.data_rdw_en_S2)"
+  ]
+}
